@@ -18,6 +18,8 @@ For instructions on what to add under these headers, see the course project assi
 
 ## Pages and navigation
 
+![alt text](img/kakkaemoji.jpg)
+
 ## Technological considerations
 
 ### Django apps in your Django project
