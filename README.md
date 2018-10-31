@@ -18,7 +18,7 @@ For instructions on what to add under these headers, see the course project assi
 
 ## Pages and navigation
 
-![alt text](navigation.png)
+![alt text](Navigation.png)
 
 ## Technological considerations
 
