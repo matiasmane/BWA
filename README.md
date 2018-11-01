@@ -112,14 +112,14 @@ The following views will be needed in the website:
 
 **Login**  
 Function on the system: The frontpage of the website.  
-When called: This view is called when the user enters the page for the first time or after a session has ended. The page offers registeration for new users and login for users who have already registered.
+When called: This view is called when the user enters the page for the first time or after a session has ended. The page offers registeration for new users and login for users who have already registered.  
 Parameters: -  
 Output: Renders login page.  
 
 **Register**  
 Function on the system: The page where a new user can register.  
 When called:  The view is called when a user clicks "register" in the login page.  
-Parameters:-  
+Parameters: -  
 Output: Renders register page.  
 
 **Settings**  
@@ -146,7 +146,7 @@ When called: The view is called when the user chooses the discussion icon on the
 Parameters: username  
 Output: Renders discussion page.  
 
-**Events**
+**Events**  
 Function on the system: On this page you can set an event or participate in an event.  
 When called: This view is called when the user is making an event or the user is participating.  
 Parameters: username, discussion   
@@ -157,6 +157,41 @@ Function on the system:  You can create a group with specific friends and discus
 When called: This view is called when the user wants to discuss with the group or read messages.  
 Parameters: username, discussion, friendship  
 Output: Renders group page.  
+
+Every page after login and register will have a nav bar on the top with icons and links for all the main pages.  
+
+The templates needed in the website are:
+
+**Login**  
+Renders the login page, which has fields for user name and password. Al-so has a link to registration page.
+
+**Register**  
+Renders the registration page. User can input all the information that is needed and create an account.
+
+**Profile**  
+Renders the profile page. Displays the user name, profile picture, status updates and their comments.
+
+**Settings** 
+Renders the settings page. Displays which settings the user has. Offers options to change settings, password and some other information.
+
+**Friendships**
+Renders the friendships page. Displays user’s list of friends and possible requests. Also has a send request option where you can send a friend request to a user whose name you know.  
+Requests: Displays pending requests and has a field for sending a new re-quest.
+
+**Discussions**
+Renders the discussions page. Shows discussions the user is part of. Of-fers an option to create a new discussion.  
+Create discussion: Create a discussion and choose the participants.  
+Discussion: Display the messages and their information in a specific discussion.  
+
+**Events**
+Renders the events page. Shows upcoming events the user can take part in and the events the user has joined. Also offers an option to create a new event.  
+Create event: Create an event and has field for all the necessary information.  
+Event: Displays discussion and information of a specific event.  
+
+**Groups**
+Renders the groups page. Displays the groups user is part of and the groups the user can join. Also offers an option to create a new group.  
+Create group: Create a group and has field for all the necessary information.  
+Group: Displays the discussion and the information of a specific group.   
 
 ### Heroku deployment
 
