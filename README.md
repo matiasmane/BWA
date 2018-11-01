@@ -12,8 +12,11 @@ For instructions on what to add under these headers, see the course project assi
 
 ## Course project group information
 The name, student number, and TUT email for each group member:
-Matias Mane, matias.mane@student.tut.fi, 267034
+ 
+Matias Mane, matias.mane@student.tut.fi, 267034 
+
 Henrik Sillanp‰‰, henrik.sillanpaa@student.tut.fi, 224507
+
 Lauri Varjo, lauri.varjo@student.tut.fi, 252869
 
 Group name: Velhot
@@ -54,8 +57,8 @@ The high level view of our website is shown in the image below.
 ### Needed Django models and their attributes
 The needed models and their attributes will be:
 
-**User**
-Description: The model for a user in the website. Includes personal information of the user.
+**User**__
+Description: The model for a user in the website. Includes personal information of the user.__
 Attributes: real name, username, email, phone number, address
 Connections: friendship, event, discussion, group, message, status update
 
