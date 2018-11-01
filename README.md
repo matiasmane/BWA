@@ -174,21 +174,21 @@ Renders the profile page. Displays the user name, profile picture, status update
 **Settings** 
 Renders the settings page. Displays which settings the user has. Offers options to change settings, password and some other information.
 
-**Friendships**
+**Friendships**  
 Renders the friendships page. Displays user’s list of friends and possible requests. Also has a send request option where you can send a friend request to a user whose name you know.  
 Requests: Displays pending requests and has a field for sending a new re-quest.
 
-**Discussions**
+**Discussions**  
 Renders the discussions page. Shows discussions the user is part of. Of-fers an option to create a new discussion.  
 Create discussion: Create a discussion and choose the participants.  
 Discussion: Display the messages and their information in a specific discussion.  
 
-**Events**
+**Events**  
 Renders the events page. Shows upcoming events the user can take part in and the events the user has joined. Also offers an option to create a new event.  
 Create event: Create an event and has field for all the necessary information.  
 Event: Displays discussion and information of a specific event.  
 
-**Groups**
+**Groups**  
 Renders the groups page. Displays the groups user is part of and the groups the user can join. Also offers an option to create a new group.  
 Create group: Create a group and has field for all the necessary information.  
 Group: Displays the discussion and the information of a specific group.   
