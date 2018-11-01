@@ -57,55 +57,55 @@ The high level view of our website is shown in the image below.
 ### Needed Django models and their attributes
 The needed models and their attributes will be:
 
-**User**__
-Description: The model for a user in the website. Includes personal information of the user.__
-Attributes: real name, username, email, phone number, address
-Connections: friendship, event, discussion, group, message, status update
+**User**  
+Description: The model for a user in the website. Includes personal information of the user.  
+Attributes: real name, username, email, phone number, address    
+Connections: friendship, event, discussion, group, message, status update    
 
-**Event**
-Description: The model for an event that a user can create and others can join.
-Attributes: name, description, category, duration, place, participants
-Connections: discussion, user
+**Event**  
+Description: The model for an event that a user can create and others can join.  
+Attributes: name, description, category, duration, place, participants  
+Connections: discussion, user  
 
-**Discussion**
-Description: The model for a discussion between two or more users.
-Attributes: participants
-Connections: message, user
+**Discussion**  
+Description: The model for a discussion between two or more users.  
+Attributes: participants  
+Connections: message, user  
 
-**Group**
-Description: The model for a group that a user can create and others can join.
-Attributes: members, posts
-Connections: discussion
+**Group**  
+Description: The model for a group that a user can create and others can join.  
+Attributes: members, posts  
+Connections: discussion  
 
-**Friendship**
-Description: The model for a friendship between two users.
-Attributes: status, users
-Connections: user
+**Friendship**  
+Description: The model for a friendship between two users.  
+Attributes: status, users  
+Connections: user  
 
-**Message**
-Description: A simple model for a user-made message in the system.
-Attributes: text, author, date and time
-Connections: user
+**Message**  
+Description: A simple model for a user-made message in the system.  
+Attributes: text, author, date and time  
+Connections: user  
 
-**Status update**
-Description: A model for the status updates in a user’s profile.
-Attributes: text, author, date and time
-Connections: user
+**Status update**  
+Description: A model for the status updates in a user’s profile.  
+Attributes: text, author, date and time  
+Connections: user  
 
 ### URLs
 In the website we will use the following URLs:
 
-Login page: domain
-Profile Page: /user_name
-Settings Page: /user_name/settings
-List of friends: /user_name/friends
-Friend requests: /user_name/requests
-List of discussions: /user_name/discussions
-New discussion: /discussions/create
-One particular discussion: /discussions/discussion_id
-List of events: /events
-New event: /events/create
-One particular event: /events/event_id
+Login page: domain  
+Profile Page: /user_name  
+Settings Page: /user_name/settings  
+List of friends: /user_name/friends  
+Friend requests: /user_name/requests  
+List of discussions: /user_name/discussions  
+New discussion: /discussions/create  
+One particular discussion: /discussions/discussion_id  
+List of events: /events  
+New event: /events/create  
+One particular event: /events/event_id  
 
 ### Needed Django views and templates
 
