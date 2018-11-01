@@ -108,7 +108,55 @@ New event: /events/create
 One particular event: /events/event_id  
 
 ### Needed Django views and templates
+The following views will be needed in the website:
 
+**Login**  
+Function on the system: The frontpage of the website.  
+When called: This view is called when the user enters the page for the first time or after a session has ended. The page offers registeration for new users and login for users who have already registered.
+Parameters: -  
+Output: Renders login page.  
+
+**Register**  
+Function on the system: The page where a new user can register.  
+When called:  The view is called when a user clicks "register" in the login page.  
+Parameters:-  
+Output: Renders register page.  
+
+**Settings**  
+Function on the system: The page where user settings can be edited etc.  
+When called: The view is called when the user chooses the settings icon in the navigation bar.  
+Parameters: username  
+Output: Renders settings page.  
+
+**Friendships**  
+Function on the system: Shows all the friendships the user has  
+When called: The view is called when the user chooses the friendships icon in the navigation bar.  
+Parameters: username  
+Output: Renders friendship page.  
+
+**Profile**  
+Function on the system: The actual mainpage of the website after loggin in.  
+When called: This is the view when you have been logged in from the Login page. You can call this icon from any view.  
+Parameters: username  
+Output: Renders profile page.  
+
+**Discussions**  
+Function on the system: This page enables the discussions in the website. In the view the user can see all the discussions and start new ones.  
+When called: The view is called when the user chooses the discussion icon on the navigation bar.  
+Parameters: username  
+Output: Renders discussion page.  
+
+**Events**
+Function on the system: On this page you can set an event or participate in an event.  
+When called: This view is called when the user is making an event or the user is participating.  
+Parameters: username, discussion   
+Output: Renders event page.  
+
+**Groups**  
+Function on the system:  You can create a group with specific friends and discuss with them privately.   
+When called: This view is called when the user wants to discuss with the group or read messages.  
+Parameters: username, discussion, friendship  
+Output: Renders group page.  
 
 ### Heroku deployment
 
