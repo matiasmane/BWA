@@ -19,4 +19,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('profile/',views.profile),
+    path('list_of_friends',views.profile/friends),
 ]

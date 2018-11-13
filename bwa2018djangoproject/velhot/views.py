@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from django.httip import HttpResponse
+from .models import User
 
-# Create your views here.
+def profile(user):
+    return HttpResponse("Ripuli.")
