@@ -1,9 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class User (models.Model):
-    real_name = models.CharField(max_length=255, unique=False)
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(unique=True, null=True, blank=True, default=None)
-    phonenumber = models.PositiveIntegerField(default=0)
-    address = models.CharField(max_length=255, unique=False)
-    #test
+class Discussion (models.Model):
+    participants = []
+
+class Group (models.Model):
+    members = []
+    posts = []
+
+class Post(models.Model):
+    post_text = models.CharField(max_length=2500)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField('Publication Date')
+    def __str__(self):
+        return self.post_text
+
