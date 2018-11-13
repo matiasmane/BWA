@@ -1,0 +1,11 @@
+<head><title> Log in </title></head>
+{% load static %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+No account? <a href="/signup">Create one!</a>
+{% endblock %}

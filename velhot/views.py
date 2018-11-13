@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User, Post
 from django.views import generic
+from velhot.forms import SignUpForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
 def profile(user):
     return HttpResponse("Ripuli.")
@@ -19,10 +22,6 @@ class Index(generic.ListView):
 
 def post(request):
     return HttpResponse("This is a dummy view")
-
-from velhot.forms import SignUpForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
 
 def signup(request):
     if request.user.is_authenticated:
