@@ -16,9 +16,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from velhot import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('profile/',views.profile),
-    path('list_of_friends',views.profile/friends),
+    #path('list_of_friends',views.profile.friends),
 ]
