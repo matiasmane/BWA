@@ -4,16 +4,15 @@ from .models import User, Post
 from django.views import generic
 from velhot.forms import SignUpForm
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def profile(user):
     return HttpResponse("Ripuli.")
 
-def login(user):
-    return HttpResponse("Login")
-
-class Index(generic.ListView):
-    
+class Index(LoginRequiredMixin, generic.ListView):
+    login_url = '/login'
+    redirect_field_name = ''
     template_name = 'home/index.html'
     context_object_name = 'posts_list'
     
@@ -39,3 +38,9 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+def settings(user):
+    return HttpResponse("You can change your profile settings here.")
