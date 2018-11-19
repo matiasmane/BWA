@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'velhot',
-    'phone_field',
 ]
 
 MIDDLEWARE = [
