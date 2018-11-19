@@ -1,9 +1,10 @@
-<a href="/">Home</a>
-<a href="/settings">Settings</a>
-<a href="/logout">Logout</a>
-<div class="container">
-    {{ user.username }} 
-    {{ user.email }}
-    {{ user.address }}
-    {{ user.phone_number }}
-</div>
+{% extends 'basic.html' %}
+
+{% block content %}
+    <div class="container">
+        {{ user.username }} 
+        {{ user.email }}
+        {{ user.address }}
+        {{ user.phone_number }}
+    </div>
+{% endblock %}
