@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User, Post
 from django.views import generic
-from velhot.forms import SignUpForm
+from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -22,11 +22,27 @@ class Index(LoginRequiredMixin, generic.ListView):
     template_name = 'home/index.html'
     context_object_name = 'posts_list'
     
-    def get_queryset(self):
-        return Post.objects.order_by('-pub_date')
+    def get(self, request):
+        form = HomeForm()
+        posts = Post.objects.all().order_by('-pub_date')
+      
+        args = {
+            'form': form, 'posts': posts
+        }
+        return render(request, self.template_name, args)
 
-def post(request):
-    return HttpResponse("This is a dummy view")
+    def post(self, request):
+        form = HomeForm(request.POST)
+        if form.is_valid():
+            post_text = form.save(commit=False)
+            post_text.user = request.user
+            post_text.save()
+            text = form.cleaned_data['post']
+            form = HomeForm()
+            return redirect('/')
+
+        args = {'form': form, 'text': text}
+        return render(request, self.template_name, args)
 
 def signup(request):
     if request.user.is_authenticated:

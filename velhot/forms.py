@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.core.validators import RegexValidator
+from .models import Post
 
 class SignUpForm(UserCreationForm):
     
@@ -21,8 +22,18 @@ class SignUpForm(UserCreationForm):
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
-from django import forms
-
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField()
+
+class HomeForm(forms.ModelForm):
+    post = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Write a post...'
+            }
+        ))
+
+    class Meta:
+        model = Post
+        fields = ('post',)

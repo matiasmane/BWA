@@ -9,9 +9,7 @@ class Group (models.Model):
     posts = []
 
 class Post(models.Model):
-    post_text = models.CharField(max_length=2500)
+    post = models.CharField(max_length=2500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pub_date = models.DateTimeField('Publication Date')
+    pub_date = models.DateTimeField('Publication Date', auto_now_add=True)
     
-    def __str__(self):
-        return self.post_text

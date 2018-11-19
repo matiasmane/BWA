@@ -1,9 +1,21 @@
-{% if posts_list %}
-{{ posts_list %}
-{% else %}
-<p>It seems that there are no posts available.</p>
-<h1>Be the first to post here!</h1>
-<a href="/logout">Logout</a>
+{% block body %}
 <a href="/profile">Profile</a>
 <a href="/settings">Settings</a>
-{% endif %}
+<a href="/logout">Logout</a>
+<div class="container">
+    <div class="col-md-8">
+        <h2>Home</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.post }}
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        <h2>{{ text }}</h2>
+        {% for post in posts %}
+            <h1>{{ post.post }}</h1>
+            <p>Posted by {{ post.user.get_username }} on {{ post.pub_date }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
