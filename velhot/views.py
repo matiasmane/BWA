@@ -13,8 +13,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 
-def profile(user):
-    return HttpResponse("Ripuli.")
+def profile(request):
+    return render(request, 'accounts/profile.html')
 
 class Index(LoginRequiredMixin, generic.ListView):
     login_url = '/login'
