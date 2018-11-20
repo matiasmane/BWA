@@ -5,9 +5,9 @@
 <div class="container">
     <h1>Profile</h1>
     <p>Username: {{ user.username }}</p>
-    <p>Real name: {{ user.real_name }}</p>
+    <p>Real name: {{ user.profile.real_name }}</p>
     <p>Email: {{ user.email }}</p>
-    <p>Phone: {{ user.phone_number }}</p>
-    <p>Address: {{ user.address }}</p>
+    <p>Phone: {{ user.profile.phone_number }}</p>
+    <p>Address: {{ user.profile.address }}</p>
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, Friend
+from .models import User, Post, Friend, Profile
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -26,7 +26,7 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        #friend = Friend.objects.get(current_user=request.user)
+        #friend = Friend.objects.get(current_user=request.user.id)
         #friends = friend.users.all()
       
         args = {
@@ -53,7 +53,13 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            print(user)
+            profile = Profile(address=form.cleaned_data.get('address'), phone_number=form.cleaned_data.get('phone_number'),
+            real_name=form.cleaned_data.get('real_name'))
+            profile.user = user
+            profile.save()
+
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -91,3 +97,6 @@ def change_friends(request, operation, pk):
     elif operation == 'remove':
         Friend.lose_friend(request.user, friend)
     return redirect('/')
+
+def discussions(request):
+    return render(request, 'actions/discussions.html')
