@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'velhot',
+    'friendship',
 ]
 
 MIDDLEWARE = [

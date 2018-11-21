@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.conf.urls import url
+
 
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
@@ -10,6 +12,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile, name='profile'),
     path('settings/', views.settings, name='settings'),
-    path('discussions/', views.discussions, name='discussions'),
-    
+    path('discussion/', views.discussion, name='discussion'),
+    url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),
 ]
