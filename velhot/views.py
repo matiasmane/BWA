@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, Profile
+from .models import User, Post, Friend, Profile
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -11,8 +11,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from friendship.models import Friend, Follow, Block
 
 
 def profile(request):
@@ -28,11 +26,11 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        friends = Friend.objects.friends(request.user)
-        requests = Friend.objects.unrejected_requests(user=request.user)
+        #friend = Friend.objects.get(current_user=request.user.id)
+        #friends = friend.users.all()
       
         args = {
-            'form': form, 'posts': posts, 'users': users, 'friends': friends, 'requests': requests,
+            'form': form, 'posts': posts, 'users': users, #'friends': friends
         }
         return render(request, self.template_name, args)
 
@@ -92,13 +90,13 @@ def settings(request):
         'form': form
     })
 
-def discussion(request):
-    return render(request, 'actions/discussion.html')
-
 def change_friends(request, operation, pk):
-    other_user = User.objects.get(pk=1)
+    friend = User.objects.get(pk=pk)
     if operation == 'add':
-        Friend.objects.add_friend(request.user, other_user)
+        Friend.make_friend(request.user, friend)
     elif operation == 'remove':
-        Friend.objects.remove_friend(request.user, other_user)
+        Friend.lose_friend(request.user, friend)
     return redirect('/')
+
+def discussions(request):
+    return render(request, 'actions/discussions.html')
