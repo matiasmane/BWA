@@ -15,7 +15,7 @@ The name, student number, and TUT email for each group member:
  
 Matias Mane, matias.mane@student.tut.fi, 267034 
 
-Henrik Sillanpää, henrik.sillanpaa@student.tut.fi, 224507
+Henrik Sillanpï¿½ï¿½, henrik.sillanpaa@student.tut.fi, 224507
 
 Lauri Varjo, lauri.varjo@student.tut.fi, 252869
 
@@ -63,11 +63,6 @@ Description: The model for a user in the website. Includes personal information 
 Attributes: real name, username, email, phone number, address    
 Connections: friendship, event, discussion, group, message, status update    
 
-**Event**  
-Description: The model for an event that a user can create and others can join.  
-Attributes: name, description, category, duration, place, participants  
-Connections: discussion, user  
-
 **Discussion**  
 Description: The model for a discussion between two or more users.  
 Attributes: participants  
@@ -88,11 +83,6 @@ Description: A simple model for a user-made message in the system.
 Attributes: text, author, date and time  
 Connections: user  
 
-**Status update**  
-Description: A model for the status updates in a user’s profile.  
-Attributes: text, author, date and time  
-Connections: user  
-
 ### URLs
 In the website we will use the following URLs:
 
@@ -104,7 +94,6 @@ Friend requests: /user_name/requests
 List of discussions: /user_name/discussions  
 New discussion: /discussions/create  
 One particular discussion: /discussions/discussion_id  
-List of events: /events  
 New event: /events/create  
 One particular event: /events/event_id  
 
@@ -147,12 +136,6 @@ When called: The view is called when the user chooses the discussion icon on the
 Parameters: username  
 Output: Renders discussion page.  
 
-**Events**  
-Function on the system: On this page you can set an event or participate in an event.  
-When called: This view is called when the user is making an event or the user is participating.  
-Parameters: username, discussion   
-Output: Renders event page.  
-
 **Groups**  
 Function on the system:  You can create a group with specific friends and discuss with them privately.   
 When called: This view is called when the user wants to discuss with the group or read messages.  
@@ -176,7 +159,7 @@ Renders the profile page. Displays the user name, profile picture, status update
 Renders the settings page. Displays which settings the user has. Offers options to change settings, password and some other information.
 
 **Friendships**  
-Renders the friendships page. Displays user’s list of friends and possible requests. Also has a send request option where you can send a friend request to a user whose name you know.  
+Renders the friendships page. Displays userï¿½s list of friends and possible requests. Also has a send request option where you can send a friend request to a user whose name you know.  
 Requests: Displays pending requests and has a field for sending a new re-quest.
 
 **Discussions**  
@@ -197,7 +180,7 @@ Group: Displays the discussion and the information of a specific group.
 ### Heroku deployment
 
 ## Testing
-The testing timetable will become clearer once we get the project rolling and start to implement the parts of the website. We are not planning to do the “Thorough testing using Django test” but if we still have time later during the project we will do it. We will mainly test the sites functionality and will do the verification of the code using a code tester. The UI and its usability will be evaluated using heuristic evaluation. 
+The testing timetable will become clearer once we get the project rolling and start to implement the parts of the website. We are not planning to do the ï¿½Thorough testing using Django testï¿½ but if we still have time later during the project we will do it. We will mainly test the sites functionality and will do the verification of the code using a code tester. The UI and its usability will be evaluated using heuristic evaluation. 
 
 ## Project timetable and division of work
 
