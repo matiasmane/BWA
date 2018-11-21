@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, Friend, Profile
+from .models import User, Post, Friendship, Profile
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -26,9 +26,7 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        #friend = Friend.objects.get(current_user=request.user.id)
-        #friends = friend.users.all()
-      
+
         args = {
             'form': form, 'posts': posts, 'users': users, #'friends': friends
         }
@@ -54,12 +52,10 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            print(user)
             profile = Profile(address=form.cleaned_data.get('address'), phone_number=form.cleaned_data.get('phone_number'),
             real_name=form.cleaned_data.get('real_name'))
             profile.user = user
             profile.save()
-
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -90,13 +86,10 @@ def settings(request):
         'form': form
     })
 
-def change_friends(request, operation, pk):
-    friend = User.objects.get(pk=pk)
-    if operation == 'add':
-        Friend.make_friend(request.user, friend)
-    elif operation == 'remove':
-        Friend.lose_friend(request.user, friend)
-    return redirect('/')
-
 def discussions(request):
     return render(request, 'actions/discussions.html')
+
+def add_friend(request, pk):
+    friend = User.objects.get(pk=pk)
+    Friendship.make_friend(request.user, friend)
+    return redirect('/')

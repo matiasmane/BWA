@@ -99,6 +99,8 @@ DATABASES = {
     }
 }
 
+AUTH_PROFILE_MODULE = 'velhot.Profile'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
