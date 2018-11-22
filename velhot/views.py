@@ -26,9 +26,11 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
+        user = Profile.user
+        friends = Profile.get_friendships(user)
 
         args = {
-            'form': form, 'posts': posts, 'users': users, #'friends': friends
+            'form': form, 'posts': posts, 'users': users, 'friends': friends
         }
         return render(request, self.template_name, args)
 
@@ -89,7 +91,7 @@ def settings(request):
 def discussions(request):
     return render(request, 'actions/discussions.html')
 
-def add_friend(request, pk):
+def add_friend(request, operation, pk):
     friend = User.objects.get(pk=pk)
     Friendship.make_friend(request.user, friend)
     return redirect('/')
