@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, Friendship, Profile
+from .models import User, Post, Friend, Profile
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -13,8 +13,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 
-def profile(request):
-    return render(request, 'accounts/profile.html')
+def profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args = {'user': user}
+    return render(request, 'accounts/profile.html', args)
 
 class Index(LoginRequiredMixin, generic.ListView):
     login_url = '/login'
@@ -26,8 +31,8 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        user = Profile.user
-        friends = Profile.get_friendships(user)
+        friend, created = Friend.objects.get_or_create(current_user=request.user)
+        friends = friend.users.all()
 
         args = {
             'form': form, 'posts': posts, 'users': users, 'friends': friends
@@ -91,7 +96,10 @@ def settings(request):
 def discussions(request):
     return render(request, 'actions/discussions.html')
 
-def add_friend(request, operation, pk):
+def change_friends(request, operation, pk):
     friend = User.objects.get(pk=pk)
-    Friendship.make_friend(request.user, friend)
+    if operation == 'add':
+        Friend.make_friend(request.user, friend)
+    elif operation == 'remove':
+        Friend.lose_friend(request.user, friend)
     return redirect('/')

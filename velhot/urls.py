@@ -12,6 +12,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('settings/', views.settings, name='settings'),
     path('discussions/', views.discussions, name='discussions'),
-    url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.add_friend, name='add_friend')
-    
+    url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),
+    url(r'^profile/(?P<pk>\d+)/$', views.profile, name='view_profile_with_pk'),
 ]

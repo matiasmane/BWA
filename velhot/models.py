@@ -21,19 +21,21 @@ class Profile(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$')
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
 
-    def get_friendships(self):
-  	    friendships = Friendship.objects.all()
-  	    return friendships
-
-class Friendship(models.Model):
-    creator = models.ForeignKey(User, related_name="friendship_creator_set", on_delete=models.CASCADE)
-    new_friend = models.ForeignKey(User, related_name="friend_set", on_delete=models.CASCADE, null=True)
+class Friend(models.Model):
+    users = models.ManyToManyField(User)
+    current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
     confirmed = models.BooleanField(default=False)
-    
+
     @classmethod
-    def make_friend(cls, creator, new_friend, confirmed=True):
-        friendship, created = cls.objects.get_or_create(
-            creator = creator, new_friend = new_friend, confirmed=True)
-        friendship.save()
-        print(friendship)
-        
+    def make_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        friend.users.add(new_friend)
+
+    @classmethod
+    def lose_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        friend.users.remove(new_friend)
