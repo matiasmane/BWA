@@ -5,14 +5,13 @@
 <div class="container">
     <div class="col-md-8">
         {% if user == request.user or user in friends %}
-            <h1>Profile</h1>
-            <p>Username: {{ user.username }}</p>
+            <h1>{{user.username}}</h1>
             <p>Real name: {{ user.profile.real_name }}</p>
             <p>Email: {{ user.email }}</p>
             <p>Phone: {{ user.profile.phone_number }}</p>
             <p>Address: {{ user.profile.address }}</p>
         {% else %}
-            <h1>Profile</h1>
+            <h1>{{user.username}}</h1>
                 {% if not user in sent_to_users %}
                         <a href="{% url 'send_friend_request' id=user.id %}">
                         <button type="button" class="btn btn-success">Send friend request</button>
@@ -22,7 +21,6 @@
                     <button type="button" class="btn btn-warning">Cancel friend request</button>
                     </a>
                 {% endif %}
-            <p>Username: {{ user.username }}</p>
             <p>Real name: {{ user.profile.real_name }}</p>
         {% endif %}
     </div>
