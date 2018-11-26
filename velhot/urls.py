@@ -12,7 +12,9 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('settings/', views.settings, name='settings'),
     path('discussions/', views.discussions, name='discussions'),
-    url(r'^connect/(?P<id>\d+)/$', views.send_friend_request, name='send_friend_request'),
-    url(r'^connect/(?P<id>\d+)/$', views.accept_friend_request, name='accept_friend_request'),
     url(r'^profile/(?P<pk>\d+)/$', views.profile, name='view_profile_with_pk'),
+    url(r'^friend-request/send/(?P<id>\d+)/$', views.send_friend_request, name='send_friend_request'),
+    url(r'^friend-request/accept/(?P<id>\d+)/$', views.accept_friend_request, name='accept_friend_request'),
+    url(r'^friend-request/cancel/(?P<id>\d+)/$', views.cancel_friend_request, name='cancel_friend_request'),
+
 ]

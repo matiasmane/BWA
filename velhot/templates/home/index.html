@@ -35,12 +35,14 @@
         {% endfor %}
         <h2>Sent Friend requests</h2>
 		{% for s_request in sent_friend_requests %}
-			<h3>{{s_request.to_user.username }}</h3>
+            <a href="{% url 'view_profile_with_pk' pk=s_request.to_user.pk %}">
+			    <h3>{{s_request.to_user.username }}</h3>
+            </a>
 		{% endfor %}
         <h2>Received Friend requests</h2>
 		{% for r_request in rec_friend_requests %}
 			<h3>{{ r_request.from_user.username }}</h3>
-            <a href="{% url 'accept_friend_request' id=user.id %}">
+            <a href="{% url 'accept_friend_request' id=r_request.from_user.id %}">
             <button type="button" class="btn btn-success">Accept friend request</button>
             </a>
 		{% endfor %}

@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
-
+@login_required(login_url='/login')
 def profile(request, pk=None):
     if pk:
         user = User.objects.get(pk=pk)
@@ -36,16 +36,11 @@ class Index(LoginRequiredMixin, generic.ListView):
         friends = p.friends.all()
         sent_friend_requests = FriendRequest.objects.filter(from_user=p.user)
         rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
-        button_status = 'none'
-        if p not in request.user.profile.friends.all():
-            button_status = 'not_friend'
-            if len(FriendRequest.objects.filter(
-                from_user=request.user).filter(to_user=p.user)) == 1:
-                    button_status = 'friend_request_sent'
+        print(rec_friend_requests)
 
         args = {
             'form': form, 'posts': posts, 'users': users, 'friends': friends, 'sent_friend_requests': sent_friend_requests,
-             'button_status': button_status, 'rec_friend_requests': rec_friend_requests }
+            'rec_friend_requests': rec_friend_requests }
         return render(request, self.template_name, args)
 
     def post(self, request):
@@ -102,8 +97,10 @@ def settings(request):
         'form': form
     })
 
+@login_required(login_url='/login')
 def discussions(request):
     return render(request, 'actions/discussions.html')
+
 
 def send_friend_request(request, id):
 	user = get_object_or_404(User, id=id)
@@ -113,11 +110,17 @@ def send_friend_request(request, id):
 	return redirect('/')
 
 def accept_friend_request(request, id):
-	from_user = get_object_or_404(User, id=id)
-	frequest = FriendRequest.objects.filter(from_user=from_user, to_user=request.user).first()
-	user1 = frequest.to_user
-	user2 = from_user
-	user1.profile.friends.add(user2.profile)
-	user2.profile.friends.add(user1.profile)
+    from_user = get_object_or_404(User, id=id)
+    frequest = FriendRequest.objects.filter(from_user=from_user, to_user=request.user).first()
+    user1 = frequest.to_user
+    user2 = from_user
+    user1.profile.friends.add(user2)
+    user2.profile.friends.add(user1)
+    frequest.delete()
+    return redirect('/')
+
+def cancel_friend_request(request, id):
+	user = get_object_or_404(User, id=id)
+	frequest = FriendRequest.objects.filter(from_user=request.user, to_user=user).first()
 	frequest.delete()
 	return redirect('/')
