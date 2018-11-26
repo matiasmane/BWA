@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, Friend, Profile
+from .models import User, Post, FriendRequest, Profile
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -9,8 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 
 def profile(request, pk=None):
@@ -31,12 +32,20 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        friend, created = Friend.objects.get_or_create(current_user=request.user)
-        friends = friend.users.all()
+        p = Profile.objects.filter(user=request.user).first()
+        friends = p.friends.all()
+        sent_friend_requests = FriendRequest.objects.filter(from_user=p.user)
+        rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
+        button_status = 'none'
+        if p not in request.user.profile.friends.all():
+            button_status = 'not_friend'
+            if len(FriendRequest.objects.filter(
+                from_user=request.user).filter(to_user=p.user)) == 1:
+                    button_status = 'friend_request_sent'
 
         args = {
-            'form': form, 'posts': posts, 'users': users, 'friends': friends
-        }
+            'form': form, 'posts': posts, 'users': users, 'friends': friends, 'sent_friend_requests': sent_friend_requests,
+             'button_status': button_status, 'rec_friend_requests': rec_friend_requests }
         return render(request, self.template_name, args)
 
     def post(self, request):
@@ -96,10 +105,19 @@ def settings(request):
 def discussions(request):
     return render(request, 'actions/discussions.html')
 
-def change_friends(request, operation, pk):
-    friend = User.objects.get(pk=pk)
-    if operation == 'add':
-        Friend.make_friend(request.user, friend)
-    elif operation == 'remove':
-        Friend.lose_friend(request.user, friend)
-    return redirect('/')
+def send_friend_request(request, id):
+	user = get_object_or_404(User, id=id)
+	frequest, created = FriendRequest.objects.get_or_create(
+		from_user=request.user,
+		to_user=user)
+	return redirect('/')
+
+def accept_friend_request(request, id):
+	from_user = get_object_or_404(User, id=id)
+	frequest = FriendRequest.objects.filter(from_user=from_user, to_user=request.user).first()
+	user1 = frequest.to_user
+	user2 = from_user
+	user1.profile.friends.add(user2.profile)
+	user2.profile.friends.add(user1.profile)
+	frequest.delete()
+	return redirect('/')

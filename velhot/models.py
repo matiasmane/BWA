@@ -20,22 +20,12 @@ class Profile(models.Model):
     address = models.CharField(max_length=60)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$')
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
+    friends = models.ManyToManyField(User, blank=True, related_name="friends")
 
-class Friend(models.Model):
-    users = models.ManyToManyField(User)
-    current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
-    confirmed = models.BooleanField(default=False)
+class FriendRequest(models.Model):
+	to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
+	from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
+	timestamp = models.DateTimeField(auto_now_add=True) # set when created 
 
-    @classmethod
-    def make_friend(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
-            current_user=current_user
-        )
-        friend.users.add(new_friend)
-
-    @classmethod
-    def lose_friend(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
-            current_user=current_user
-        )
-        friend.users.remove(new_friend)
+	def __str__(self):
+		return "From {}, to {}".format(self.from_user.username, self.to_user.username)

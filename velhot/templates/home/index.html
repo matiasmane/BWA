@@ -22,9 +22,9 @@
                 <h3>{{ user.username }}</h3>
             </a>
             {% if not user in friends %}
-            <a href="{% url 'change_friends' operation='add' pk=user.pk %}">
-            <button type="button" class="btn btn-success">Add Friend</button>
-            </a>
+                <a href="{% url 'send_friend_request' id=user.id %}">
+                <button type="button" class="btn btn-success">Send friend request</button>
+                </a>
             {% endif %}
         {% endfor %}
         <h2>Friends</h2>
@@ -32,10 +32,19 @@
             <a href="{% url 'view_profile_with_pk' pk=friend.pk %}">
                 <h3>{{ friend.username }}</h3>
             </a>
-            <a href="{% url 'change_friends' operation='remove' pk=friend.pk %}">
-            <button type="button" class="btn btn-default">Remove Friend</button>
-            </a>
         {% endfor %}
+        <h2>Sent Friend requests</h2>
+		{% for s_request in sent_friend_requests %}
+			<h3>{{s_request.to_user.username }}</h3>
+		{% endfor %}
+        <h2>Received Friend requests</h2>
+		{% for r_request in rec_friend_requests %}
+			<h3>{{ r_request.from_user.username }}</h3>
+            <a href="{% url 'accept_friend_request' id=user.id %}">
+            <button type="button" class="btn btn-success">Accept friend request</button>
+            </a>
+		{% endfor %}
     </div>
+    
 </div>
 {% endblock %}
