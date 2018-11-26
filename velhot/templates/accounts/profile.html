@@ -3,18 +3,53 @@
 {% block content %}
 <title>Profile</title>
 <div class="container">
-    <h1>Profile</h1>
-    <p>Username: {{ user.username }}</p>
-    <p>Real name: {{ user.profile.real_name }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Phone: {{ user.profile.phone_number }}</p>
-    <p>Address: {{ user.profile.address }}</p>
-
-    <h2>Friends</h2>
-        {% for friend in friends %}
-            <a href="{% url 'view_profile_with_pk' pk=friend.pk %}">
-                <h3>{{ friend.username }}</h3>
-            </a>
-        {% endfor %}
+    <div class="col-md-8">
+        {% if user == request.user or user in friends %}
+            <h1>Profile</h1>
+            <p>Username: {{ user.username }}</p>
+            <p>Real name: {{ user.profile.real_name }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>Phone: {{ user.profile.phone_number }}</p>
+            <p>Address: {{ user.profile.address }}</p>
+        {% else %}
+            <h1>Profile</h1>
+                {% if not user in sent_to_users %}
+                        <a href="{% url 'send_friend_request' id=user.id %}">
+                        <button type="button" class="btn btn-success">Send friend request</button>
+                        </a>
+                {% else %}
+                    <a href="{% url 'cancel_friend_request' id=user.id %}">
+                    <button type="button" class="btn btn-warning">Cancel friend request</button>
+                    </a>
+                {% endif %}
+            <p>Username: {{ user.username }}</p>
+            <p>Real name: {{ user.profile.real_name }}</p>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+            <h2>Friends</h2>
+                {% for friend in friends %}
+                    <a href="{% url 'view_profile_with_pk' pk=friend.pk %}">
+                        <h3>{{ friend.username }}</h3>
+                    </a>
+                    {% if user == request.user %}
+                        <a href="{% url 'remove_friendship' id=friend.id %}">
+                        <button type="button" class="btn btn-warning">Remove friend</button>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+             {% if user == request.user %}
+                <h2>Sent Friend requests</h2>
+		        {% for s_request in sent_friend_requests %}
+                    <a href="{% url 'view_profile_with_pk' pk=s_request.to_user.pk %}">
+                        <h3>{{s_request.to_user.username }}</h3>
+                        <a href="{% url 'cancel_friend_request' id=s_request.to_user.id %}">
+                        <button type="button" class="btn btn-warning">Cancel friend request</button>
+                        </a>
+                    </a>
+                {% endfor %}
+            {% endif %}    
+    </div>
 </div>
 {% endblock %}
+

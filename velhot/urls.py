@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^friend-request/send/(?P<id>\d+)/$', views.send_friend_request, name='send_friend_request'),
     url(r'^friend-request/accept/(?P<id>\d+)/$', views.accept_friend_request, name='accept_friend_request'),
     url(r'^friend-request/cancel/(?P<id>\d+)/$', views.cancel_friend_request, name='cancel_friend_request'),
+    url(r'^remove-friend/(?P<id>\d+)/$', views.remove_friendship, name='remove_friendship'),
 
 ]

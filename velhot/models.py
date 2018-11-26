@@ -22,6 +22,13 @@ class Profile(models.Model):
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
     friends = models.ManyToManyField(User, blank=True, related_name="friends")
 
+    @classmethod
+    def remove_friend(cls, user, removable_friend):
+        friend, created = cls.objects.get_or_create(
+            user = user
+        )
+        friend.friends.remove(removable_friend)
+
 class FriendRequest(models.Model):
 	to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
 	from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)

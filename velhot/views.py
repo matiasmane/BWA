@@ -19,8 +19,19 @@ def profile(request, pk=None):
         user = User.objects.get(pk=pk)
     else:
         user = request.user
-    args = {'user': user}
+    p = Profile.objects.filter(user=request.user).first()
+    friends = p.friends.all()
+    sent_friend_requests = FriendRequest.objects.filter(from_user=p.user)
+    rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
+    sent_to_users = set()
+    for freaquest in sent_friend_requests:
+        sent_to_users.add(freaquest.to_user)
+
+    args = {'user': user, 'friends': friends, 'sent_friend_requests': sent_friend_requests,
+            'rec_friend_requests': rec_friend_requests, 'sent_to_users': sent_to_users }
+    
     return render(request, 'accounts/profile.html', args)
+
 
 class Index(LoginRequiredMixin, generic.ListView):
     login_url = '/login'
@@ -32,15 +43,9 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
-        p = Profile.objects.filter(user=request.user).first()
-        friends = p.friends.all()
-        sent_friend_requests = FriendRequest.objects.filter(from_user=p.user)
-        rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
-        print(rec_friend_requests)
 
         args = {
-            'form': form, 'posts': posts, 'users': users, 'friends': friends, 'sent_friend_requests': sent_friend_requests,
-            'rec_friend_requests': rec_friend_requests }
+            'form': form, 'posts': posts, 'users': users }
         return render(request, self.template_name, args)
 
     def post(self, request):
@@ -124,3 +129,8 @@ def cancel_friend_request(request, id):
 	frequest = FriendRequest.objects.filter(from_user=request.user, to_user=user).first()
 	frequest.delete()
 	return redirect('/')
+
+def remove_friendship(request, id):
+    friend = get_object_or_404(User, id=id)
+    Profile.remove_friend(request.user, friend)
+    return redirect('/')
