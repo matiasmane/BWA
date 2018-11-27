@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, FriendRequest, Profile
+from .models import User, Post, FriendRequest, Profile, Chat
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -12,6 +12,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 
 @login_required(login_url='/login')
 def profile(request, pk=None):
@@ -103,11 +104,6 @@ def settings(request):
         'form': form
     })
 
-@login_required(login_url='/login')
-def discussions(request):
-    return render(request, 'actions/discussions.html')
-
-
 def send_friend_request(request, id):
 	user = get_object_or_404(User, id=id)
 	frequest, created = FriendRequest.objects.get_or_create(
@@ -135,3 +131,26 @@ def remove_friendship(request, id):
     friend = get_object_or_404(User, id=id)
     Profile.remove_friend(request.user, friend)
     return redirect('/')
+
+def chat(request):
+    chats = Chat.objects.all()
+    ctx = {
+        'home': 'active',
+        'chat': chats }
+    return render(request, 'actions/chat.html', ctx)
+
+def chatpost(request):
+    if request.method == "POST":
+        msg = request.POST.get('chat-msg', None)
+        print('Our value = ', msg)
+        chat_message = Chat(user=request.user, message=msg)
+        if msg != '':
+            chat_message.save()
+        return JsonResponse({'msg': msg, 'user': chat_message.user.username})
+    else:
+        return HttpResponse('Request must be POST.')
+
+
+def chatmessages(request):
+    chat = Chat.objects.all()
+    return render(request, 'messages.html', {'chat': chat})
