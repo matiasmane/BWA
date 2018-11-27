@@ -22,13 +22,12 @@ def profile(request, pk=None):
     p = Profile.objects.filter(user=request.user).first()
     friends = p.friends.all()
     sent_friend_requests = FriendRequest.objects.filter(from_user=p.user)
-    rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
     sent_to_users = set()
     for freaquest in sent_friend_requests:
         sent_to_users.add(freaquest.to_user)
 
     args = {'user': user, 'friends': friends, 'sent_friend_requests': sent_friend_requests,
-            'rec_friend_requests': rec_friend_requests, 'sent_to_users': sent_to_users }
+            'sent_to_users': sent_to_users }
     
     return render(request, 'accounts/profile.html', args)
 
@@ -43,9 +42,11 @@ class Index(LoginRequiredMixin, generic.ListView):
         form = HomeForm()
         posts = Post.objects.all().order_by('-pub_date')
         users = User.objects.exclude(id=request.user.id)
+        p = Profile.objects.filter(user=request.user).first()
+        rec_friend_requests = FriendRequest.objects.filter(to_user=p.user)
 
         args = {
-            'form': form, 'posts': posts, 'users': users }
+            'form': form, 'posts': posts, 'users': users, 'rec_friend_requests': rec_friend_requests }
         return render(request, self.template_name, args)
 
     def post(self, request):
@@ -112,7 +113,7 @@ def send_friend_request(request, id):
 	frequest, created = FriendRequest.objects.get_or_create(
 		from_user=request.user,
 		to_user=user)
-	return redirect('/')
+	return redirect('/profile/' + id)
 
 def accept_friend_request(request, id):
     from_user = get_object_or_404(User, id=id)

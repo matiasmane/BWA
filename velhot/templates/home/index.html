@@ -22,6 +22,14 @@
                 <h3>{{ user.username }}</h3>
             </a>
          {% endfor %}
+         <h2>Received Friend requests</h2>
+		 {% for r_request in rec_friend_requests %}
+		    <h3>{{ r_request.from_user.username }}</h3>
+            <a href="{% url 'accept_friend_request' id=r_request.from_user.id %}">
+            <button type="button" class="btn btn-success">Accept friend request</button>
+            </a>
+		{% endfor %}
+
     </div>
 </div>
 {% endblock %}
