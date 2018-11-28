@@ -2,17 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
+class channel (models.Model):
+    members = []
+
 class Chat (models.Model):
     created = models.DateTimeField('Publication Date',auto_now_add=True)
-    message = models.CharField(max_length=255)
+    message = models.CharField(max_length=255,default = '')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.message
 
-class Group (models.Model):
-    members = []
-    posts = []
+
 
 class Post(models.Model):
     post = models.CharField(max_length=2500)

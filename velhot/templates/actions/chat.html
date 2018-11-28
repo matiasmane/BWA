@@ -11,7 +11,7 @@ account %} {% load crispy_forms_tags %} {% block content %}
         </li>
         {% else %}
         <li class="text-left list-group-item">
-          {{ obj.user.username }} {{ 'by' }} {{ obj.message }} on {{obj.created}}
+          {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}}
         </li>
         {% endif %} {% empty %}
         <li class="text-right list-group-item">No messages yet!</li>

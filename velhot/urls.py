@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('settings/', views.settings, name='settings'),
     url(r'chat/$', views.chat, name='chat'),
+    url(r'channel/$', views.channel, name='channel'),
     url(r'chatpost/$', views.chatpost, name='chatpost'),
     url(r'^chatmessages/$', views.chatmessages, name='chatmessages'),
     url(r'^profile/(?P<pk>\d+)/$', views.profile, name='view_profile_with_pk'),
@@ -19,5 +20,4 @@ urlpatterns = [
     url(r'^friend-request/accept/(?P<id>\d+)/$', views.accept_friend_request, name='accept_friend_request'),
     url(r'^friend-request/cancel/(?P<id>\d+)/$', views.cancel_friend_request, name='cancel_friend_request'),
     url(r'^remove-friend/(?P<id>\d+)/$', views.remove_friendship, name='remove_friendship'),
-
 ]

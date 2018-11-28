@@ -13,7 +13,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from django.utils import timezone
 
 @login_required(login_url='/login')
 def profile(request, pk=None):
@@ -114,6 +113,11 @@ def send_friend_request(request, id):
 	return redirect('/profile/' + id)
 
 @login_required(login_url='/login')
+def create_own_channel(request,id):
+    from_user = get_object_or_404(User, id=id)
+    return redirect('actions/create_chat.html'+ id)
+
+@login_required(login_url='/login')
 def accept_friend_request(request, id):
     from_user = get_object_or_404(User, id=id)
     frequest = FriendRequest.objects.filter(from_user=from_user, to_user=request.user).first()
@@ -138,10 +142,14 @@ def remove_friendship(request, id):
     return redirect('/')
 
 @login_required(login_url='/login')
+def channel(request):
+    return render(request, 'actions/create_chat.html')
+
+@login_required(login_url='/login')
 def chat(request):
     chats = Chat.objects.all()
     ctx = {
-        'home': 'active',
+        'home': 'inactive',
         'chat': chats }
     return render(request, 'actions/chat.html', ctx)
 
@@ -151,7 +159,6 @@ def chatpost(request):
         msg = request.POST.get('msgbox', None)
         print('Our value = ', msg)
         chat_message = Chat(user=request.user, message=msg)
-        
         if msg != '':
             chat_message.save()
         return JsonResponse({'msg': msg, 'user': chat_message.user.username})
