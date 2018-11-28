@@ -104,6 +104,7 @@ def settings(request):
         'form': form
     })
 
+@login_required(login_url='/login')
 def send_friend_request(request, id):
 	user = get_object_or_404(User, id=id)
 	frequest, created = FriendRequest.objects.get_or_create(
@@ -111,6 +112,7 @@ def send_friend_request(request, id):
 		to_user=user)
 	return redirect('/profile/' + id)
 
+@login_required(login_url='/login')
 def accept_friend_request(request, id):
     from_user = get_object_or_404(User, id=id)
     frequest = FriendRequest.objects.filter(from_user=from_user, to_user=request.user).first()
@@ -121,17 +123,20 @@ def accept_friend_request(request, id):
     frequest.delete()
     return redirect('/')
 
+@login_required(login_url='/login')
 def cancel_friend_request(request, id):
 	user = get_object_or_404(User, id=id)
 	frequest = FriendRequest.objects.filter(from_user=request.user, to_user=user).first()
 	frequest.delete()
 	return redirect('/')
 
+@login_required(login_url='/login')
 def remove_friendship(request, id):
     friend = get_object_or_404(User, id=id)
     Profile.remove_friend(request.user, friend)
     return redirect('/')
 
+@login_required(login_url='/login')
 def chat(request):
     chats = Chat.objects.all()
     ctx = {
@@ -139,9 +144,10 @@ def chat(request):
         'chat': chats }
     return render(request, 'actions/chat.html', ctx)
 
+@login_required(login_url='/login')
 def chatpost(request):
     if request.method == "POST":
-        msg = request.POST.get('chat-msg', None)
+        msg = request.POST.get('msgbox', None)
         print('Our value = ', msg)
         chat_message = Chat(user=request.user, message=msg)
         if msg != '':
@@ -150,7 +156,7 @@ def chatpost(request):
     else:
         return HttpResponse('Request must be POST.')
 
-
+@login_required(login_url='/login')
 def chatmessages(request):
     chat = Chat.objects.all()
-    return render(request, 'messages.html', {'chat': chat})
+    return render(request, 'actions/messages.html', {'chat': chat})

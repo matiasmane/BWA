@@ -1,4 +1,8 @@
 {% extends 'basic.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <div class="container">
@@ -8,9 +12,9 @@
                 <ul id="msg-list" class="list-group">
                     {% for obj in chat %}
                         {% if obj.user == request.user %}
-                            <li class="text-right list-group-item">{{ obj.message }}</li>
+                            <li class="text-right list-group-item">{{ obj.message }} {{ '|' }} {{ obj.user.username }}</li>
                         {% else %}
-                            <li class="text-left list-group-item">{{ obj.message }}</li>
+                            <li class="text-left list-group-item">{{ obj.user.username }} {{ '|' }} {{ obj.message }}</li>
                         {% endif %}
                     {% empty %}
                         <li class="text-right list-group-item">No messages yet!</li>
@@ -19,7 +23,7 @@
             </div>
         </div>
 
-        <form id="chat-form" method="post" action="{% url 'post' %}" data-spy="affix" data-offset-bottom="10">
+        <form id="chat-form" method="post" action="{% url 'chatpost' %}" data-spy="affix" data-offset-bottom="10">
             {% csrf_token %}
             <div id="chat-bottom" class="input-group">
                 <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
@@ -29,4 +33,7 @@
             </div>
         </form>
     </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock content %}
