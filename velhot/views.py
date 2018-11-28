@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
+from django.utils import timezone
 
 @login_required(login_url='/login')
 def profile(request, pk=None):
@@ -150,9 +151,10 @@ def chatpost(request):
         msg = request.POST.get('msgbox', None)
         print('Our value = ', msg)
         chat_message = Chat(user=request.user, message=msg)
+        
         if msg != '':
             chat_message.save()
-        return JsonResponse({'msg': msg, 'user': chat_message.user.username})
+        return JsonResponse({'msg': msg, 'user': chat_message.user.username,'date':time})
     else:
         return HttpResponse('Request must be POST.')
 
