@@ -7,11 +7,11 @@ account %} {% load crispy_forms_tags %} {% block content %}
       <ul id="msg-list" class="list-group">
         {% for obj in chat %} {% if obj.user == request.user %}
         <li class="text-right list-group-item">
-          {{ obj.message }} {{ '|' }} {{ obj.user.username }}
+          {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}}
         </li>
         {% else %}
         <li class="text-left list-group-item">
-          {{ obj.user.username }} {{ '|' }} {{ obj.message }}
+          {{ obj.user.username }} {{ 'by' }} {{ obj.message }} on {{obj.created}}
         </li>
         {% endif %} {% empty %}
         <li class="text-right list-group-item">No messages yet!</li>

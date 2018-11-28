@@ -3,11 +3,10 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 class Chat (models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField('Publication Date',auto_now_add=True)
     message = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-
     def __str__(self):
         return self.message
 

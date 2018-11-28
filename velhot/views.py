@@ -154,7 +154,7 @@ def chatpost(request):
         
         if msg != '':
             chat_message.save()
-        return JsonResponse({'msg': msg, 'user': chat_message.user.username,'date':time})
+        return JsonResponse({'msg': msg, 'user': chat_message.user.username})
     else:
         return HttpResponse('Request must be POST.')
 
