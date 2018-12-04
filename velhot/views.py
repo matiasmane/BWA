@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import User, Post, FriendRequest, Profile, Chat
+from .models import User, Post, FriendRequest, Profile, Chat, Channel
 from django.views import generic
 from velhot.forms import SignUpForm, HomeForm
 from django.shortcuts import render, redirect
@@ -32,6 +32,18 @@ def profile(request, pk=None):
     
     return render(request, 'accounts/profile.html', args)
 
+def own_chat(request):
+    try:
+        channel = Channel.objects.get(creater=request.user)
+    except:
+        channel = Channel(creater=request.user)
+        channel.save()
+    
+    return redirect('/chat/'+ str(channel.id))
+
+
+
+    
 
 class Index(LoginRequiredMixin, generic.ListView):
     login_url = '/login'
@@ -112,10 +124,10 @@ def send_friend_request(request, id):
 		to_user=user)
 	return redirect('/profile/' + id)
 
-@login_required(login_url='/login')
-def create_own_channel(request,id):
-    from_user = get_object_or_404(User, id=id)
-    return redirect('actions/create_chat.html'+ id)
+#@login_required(login_url='/login')
+#def create_own_channel(request,id):
+#    from_user = get_object_or_404(User, id=id)
+#    return redirect('actions/create_chat.html'+ id)
 
 @login_required(login_url='/login')
 def accept_friend_request(request, id):
@@ -127,6 +139,7 @@ def accept_friend_request(request, id):
     user2.profile.friends.add(user1)
     frequest.delete()
     return redirect('/')
+
 
 @login_required(login_url='/login')
 def cancel_friend_request(request, id):
@@ -146,11 +159,18 @@ def channel(request):
     return render(request, 'actions/create_chat.html')
 
 @login_required(login_url='/login')
-def chat(request):
+def chat(request, pk=None):
+    if pk is None:
+        Chat.objects.filter(channel=None)
+        chatmessages = Chat.objects.filter(channel=None)
+    else:
+        channel = Channel.objects.get(pk=pk)
+        chatmessages = channel.chatmessages()
     chats = Chat.objects.all()
     ctx = {
         'home': 'inactive',
-        'chat': chats }
+        'chat': chatmessages,
+        }
     return render(request, 'actions/chat.html', ctx)
 
 @login_required(login_url='/login')
