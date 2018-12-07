@@ -1,13 +1,18 @@
 {% extends 'basic.html' %} {% load staticfiles %} {% load i18n %} {% load
-account %} {% load crispy_forms_tags %} {% block content %}
+  account %} {% load crispy_forms_tags %} {% block content %}
 <div class="container">
   <div id="chat-body" class="panel panel-default">
-    <div class="panel-heading">Chat Box</div>
+    <div class="panel-heading">Chat box</div>
     <div id="msg-list-div" class="panel-body">
       <ul id="msg-list" class="list-group">
         {% for obj in chat %} {% if obj.user == request.user %}
+        
         <li class="text-right list-group-item">
-          {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}}
+            {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}} {{obj.channel}}         
+              <button onclick="delete_own_comment()">x</button>
+              </p>
+          </form>
+
         </li>
         {% else %}
         <li class="text-left list-group-item">
@@ -17,6 +22,7 @@ account %} {% load crispy_forms_tags %} {% block content %}
         <li class="text-right list-group-item">No messages yet!</li>
         {% endfor %}
       </ul>
+
     </div>
   </div>
 

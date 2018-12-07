@@ -37,3 +37,4 @@ class HomeForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('post',)
+        

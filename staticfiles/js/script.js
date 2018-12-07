@@ -1,6 +1,6 @@
 $('#chat-form').on('submit', function(event){
     event.preventDefault();
-
+    var fullJsUrl= $('script[src$=serveAd.js]').attr('src');
     $.ajax({
         url : 'chatpost',
         type : 'POST',
@@ -11,6 +11,7 @@ $('#chat-form').on('submit', function(event){
             $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
+            print(event,'submit')
         }
     });
 });
@@ -29,6 +30,7 @@ $(function(){
     $('#msg-list-div').on('scroll', function(){
         scrolling = true;
     });
+    
     refreshTimer = setInterval(getMessages, 500);
 });
 

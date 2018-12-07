@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 class Channel (models.Model):
-    creater = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "channelmessages")
+   
 
 class Chat (models.Model):
     created = models.DateTimeField('Publication Date',auto_now_add=True)
@@ -13,7 +13,7 @@ class Chat (models.Model):
     channel = models.ForeignKey(Channel, null=True, on_delete=models.CASCADE, related_name= "chatmessages")
     
     def __str__(self):
-        return self.message
+        return self.message, self.channel
 
 class Post(models.Model):
     post = models.CharField(max_length=2500)

@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 
+
 @login_required(login_url='/login')
 def profile(request, pk=None):
     if pk:
@@ -34,15 +35,20 @@ def profile(request, pk=None):
 
 def own_chat(request):
     try:
-        channel = Channel.objects.get(creater=request.user)
+        channel_creator = Channel.objects.get(creater=request.user)
+        
     except:
-        channel = Channel(creater=request.user)
-        channel.save()
+        channel_creator = Channel(creater=request.user)
+        
+        channel_creator.save()
+        print("hei", channel_creator.pk)
+        print("hei", channel_creator.creater.id)
+        print(request.user.pk)
+        
+       
     
-    return redirect('/chat/'+ str(channel.id))
-
-
-
+    
+    return redirect('/chat/'+ str(channel_creator.creater.id),request.user.pk,channel_creator.creater.id)
     
 
 class Index(LoginRequiredMixin, generic.ListView):
@@ -161,31 +167,68 @@ def channel(request):
 @login_required(login_url='/login')
 def chat(request, pk=None):
     if pk is None:
+        
         Chat.objects.filter(channel=None)
-        chatmessages = Chat.objects.filter(channel=None)
+        chat = Chat.objects.filter(channel=None)
+        ctx = {
+        'home': 'inactive',
+        'chat': chat,
+        }
+        return render(request,'actions/chat.html',ctx)
     else:
         channel = Channel.objects.get(pk=pk)
-        chatmessages = channel.chatmessages()
+    
     chats = Chat.objects.all()
+    
     ctx = {
         'home': 'inactive',
-        'chat': chatmessages,
+        'chat': channelmessages,
         }
     return render(request, 'actions/chat.html', ctx)
 
 @login_required(login_url='/login')
-def chatpost(request):
-    if request.method == "POST":
-        msg = request.POST.get('msgbox', None)
-        print('Our value = ', msg)
-        chat_message = Chat(user=request.user, message=msg)
-        if msg != '':
-            chat_message.save()
-        return JsonResponse({'msg': msg, 'user': chat_message.user.username})
+def chatpost(request,id=None):
+    
+    if id is None:
+        if request.method == "POST":
+            msg = request.POST.get('msgbox', None)
+            print('Our value = ', msg)
+            chat_message = Chat(user=request.user, message=msg)
+            if msg != '':
+                chat_message.save()
+            return JsonResponse({'msg': msg, 'user': chat_message.user.username})
+        else:
+            return HttpResponse('Request must be POST.')
+
     else:
-        return HttpResponse('Request must be POST.')
+        if request.method == "POST":
+            channel = get_object_or_404(Channel, id=id)
+            msg = request.POST.get('msgbox', None)
+            chat_message = Chat(user=request.user, message=msg, channel=channel)
+            if msg != '':
+                chat_message.save()
+                return JsonResponse({'msg': msg, 'user': chat_message.user.username})
+            else:
+                return HttpResponse('Request must be POST')
+
 
 @login_required(login_url='/login')
-def chatmessages(request):
-    chat = Chat.objects.all()
+def chatmessages(request, id=None):
+    if id is None:
+        chat = Chat.objects.filter(channel__isnull=True)
+    else:
+        channel = get_object_or_404(Channel, id=id)
+        chat = channel.chatmessages.all()
+        print(channel)
     return render(request, 'actions/messages.html', {'chat': chat})
+
+@login_required
+def delete_own_comment(request, id):
+    chat = get_object_or_404(Chat, pk=id)
+    if chat.user == request.user:
+        chat.delete()
+    return JsonResponse({'success':'success'})
+@login_required(login_url='/login')
+def channelmessages(request):
+    messages = Chat.objects.all()
+    return render(request,'actions/chat.html', {'messages':messages})

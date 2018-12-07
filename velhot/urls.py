@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'^chat/$', views.chat, name='chat'),
     url(r'^channel/$', views.channel, name='channel'),
     url(r'chatpost/$', views.chatpost, name='chatpost'),
+    url(r'chatpost/(?P<id>\d+)/$', views.chatpost, name='chatpost'),
+    url(r'^chatmessages/(?P<id>\d+)/$', views.chatmessages, name='chatmessages'),
     url(r'^chatmessages/$', views.chatmessages, name='chatmessages'),
     url(r'^profile/(?P<pk>\d+)/$', views.profile, name='view_profile_with_pk'),
     url(r'^chat/private_channel/$', views.own_chat, name='own_chat'),
@@ -22,4 +24,5 @@ urlpatterns = [
     url(r'^friend-request/accept/(?P<id>\d+)/$', views.accept_friend_request, name='accept_friend_request'),
     url(r'^friend-request/cancel/(?P<id>\d+)/$', views.cancel_friend_request, name='cancel_friend_request'),
     url(r'^remove-friend/(?P<id>\d+)/$', views.remove_friendship, name='remove_friendship'),
+    url(r'^message/(?P<id>\d+)/$', views.delete_own_comment, name='delete_chat'),
 ]
