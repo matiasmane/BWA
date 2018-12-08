@@ -23,7 +23,8 @@ Group name: Velhot
 
 GitLab repo URL: https://course-gitlab.tut.fi/bwa-2018/bwa-group040.git
 
-Heroku deployment URL: https://lit-citadel-15193.herokuapp.com/
+Heroku deployment URL: https://intense-fortress-95748.herokuapp.com/login/
+
 
 ## Must have features
 The must have features will be implemented in the following order:
