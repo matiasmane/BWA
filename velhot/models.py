@@ -5,7 +5,6 @@ from django.core.validators import RegexValidator
 class Channel (models.Model):
     creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "channelmessages")
    
-
 class Chat (models.Model):
     created = models.DateTimeField('Publication Date',auto_now_add=True)
     message = models.CharField(max_length=255,default = '')

@@ -8,11 +8,10 @@
         {% for obj in chat %} {% if obj.user == request.user %}
         
         <li class="text-right list-group-item">
-            {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}} {{obj.channel}}         
-              <button onclick="delete_own_comment()">x</button>
-              </p>
-          </form>
-
+            {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{obj.created}}         
+              <button onclick="remove_post()">x</button>
+            
+          
         </li>
         {% else %}
         <li class="text-left list-group-item">

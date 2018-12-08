@@ -33,22 +33,14 @@ def profile(request, pk=None):
     
     return render(request, 'accounts/profile.html', args)
 
+# tässä luodaan oma kanava chanelin luojan id:llä
 def own_chat(request):
     try:
-        channel_creator = Channel.objects.get(creater=request.user)
-        
+        channel_creator = Channel.objects.get(creater=request.user)     
     except:
-        channel_creator = Channel(creater=request.user)
-        
-        channel_creator.save()
-        print("hei", channel_creator.pk)
-        print("hei", channel_creator.creater.id)
-        print(request.user.pk)
-        
-       
-    
-    
-    return redirect('/chat/'+ str(channel_creator.creater.id),request.user.pk,channel_creator.creater.id)
+        channel_creator = Channel(creater=request.user) 
+        channel_creator.save()    
+    return redirect('/chat/'+ str(channel_creator.creater.id))
     
 
 class Index(LoginRequiredMixin, generic.ListView):
@@ -130,10 +122,6 @@ def send_friend_request(request, id):
 		to_user=user)
 	return redirect('/profile/' + id)
 
-#@login_required(login_url='/login')
-#def create_own_channel(request,id):
-#    from_user = get_object_or_404(User, id=id)
-#    return redirect('actions/create_chat.html'+ id)
 
 @login_required(login_url='/login')
 def accept_friend_request(request, id):
@@ -145,7 +133,6 @@ def accept_friend_request(request, id):
     user2.profile.friends.add(user1)
     frequest.delete()
     return redirect('/')
-
 
 @login_required(login_url='/login')
 def cancel_friend_request(request, id):
@@ -186,13 +173,14 @@ def chat(request, pk=None):
         }
     return render(request, 'actions/chat.html', ctx)
 
+# Lisätään kirjoitettu viesti oikella kanavalle
+
 @login_required(login_url='/login')
 def chatpost(request,id=None):
     
     if id is None:
         if request.method == "POST":
             msg = request.POST.get('msgbox', None)
-            print('Our value = ', msg)
             chat_message = Chat(user=request.user, message=msg)
             if msg != '':
                 chat_message.save()
@@ -211,7 +199,7 @@ def chatpost(request,id=None):
             else:
                 return HttpResponse('Request must be POST')
 
-
+# haetaan oikeat viestit oikealle kanavalle
 @login_required(login_url='/login')
 def chatmessages(request, id=None):
     if id is None:
@@ -219,7 +207,6 @@ def chatmessages(request, id=None):
     else:
         channel = get_object_or_404(Channel, id=id)
         chat = channel.chatmessages.all()
-        print(channel)
     return render(request, 'actions/messages.html', {'chat': chat})
 
 @login_required
@@ -228,6 +215,8 @@ def delete_own_comment(request, id):
     if chat.user == request.user:
         chat.delete()
     return JsonResponse({'success':'success'})
+
+
 @login_required(login_url='/login')
 def channelmessages(request):
     messages = Chat.objects.all()

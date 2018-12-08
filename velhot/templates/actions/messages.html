@@ -1,16 +1,19 @@
-{% for obj in chat %} {% if obj.user == request.user %}
+<!--Käydään läpi viestit ja laitetaan ne oikeisiin paikkoihin-->
 
+{% for obj in chat %} {% if obj.user == request.user %}
 <li id="message-{{obj.id}}" class="text-right list-group-item">
   {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{ obj.created }}
   <button onclick="remove_post({{obj.id}})">x</button>
 </li>
- 
+
 {% else %}
 <li id="message-{{obj.id}}" class="text-left list-group-item">
   {{ obj.message }} {{ 'by' }} {{ obj.user.username }} on {{ obj.created }}
-  {% if request.user.id == chat.id %}
+   <!--ei saatu tähän channelin id:tä oikein laitettua, mutta tällä periaatteella
+    oltais saatu commenttien deletointi myös chanelin adminille--> 
+  {% if request.user == channel.id %}
   <button onclick="remove_post({{obj.id}})">x</button>
-  {% endif %}
+    {% endif %} 
 </li>
 {% endif %} {% empty %}
 <li class="text-right list-group-item">No messages yet!</li>

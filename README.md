@@ -1,4 +1,4 @@
-**Welcome to the home of your group's BWA course project code and documentation!**
+﻿**Welcome to the home of your group's BWA course project code and documentation!**
 
 This file is where your group writes your project plan/project report.
 
@@ -91,11 +91,10 @@ Profile Page: /user_name
 Settings Page: /user_name/settings  
 List of friends: /user_name/friends  
 Friend requests: /user_name/requests  
-List of discussions: /user_name/discussions  
-New discussion: /discussions/create  
-One particular discussion: /discussions/discussion_id  
-New event: /events/create  
-One particular event: /events/event_id  
+Option, chose private chat or not: /channel/  
+Private_channel: /chat/user.id
+For everyone chat: /chat/ 
+  
 
 ### Needed Django views and templates
 The following views will be needed in the website:
@@ -113,7 +112,7 @@ Parameters: -
 Output: Renders register page.  
 
 **Settings**  
-Function on the system: The page where user settings can be edited etc.  
+Function on the system: The page where user password can be edited.
 When called: The view is called when the user chooses the settings icon in the navigation bar.  
 Parameters: username  
 Output: Renders settings page.  
@@ -131,10 +130,10 @@ Parameters: username
 Output: Renders profile page.  
 
 **Discussions**  
-Function on the system: This page enables the discussions in the website. In the view the user can see all the discussions and start new ones.  
-When called: The view is called when the user chooses the discussion icon on the navigation bar.  
-Parameters: username  
-Output: Renders discussion page.  
+Function on the system: In this you can either join a chat that everybody has access to it
+or you can make your own private channel and others can join it with the URL.
+Parameters: username, user.id  
+Output: Renders channel page.  
 
 **Groups**  
 Function on the system:  You can create a group with specific friends and discuss with them privately.   
@@ -163,8 +162,8 @@ Renders the friendships page. Displays user�s list of friends and possible req
 Requests: Displays pending requests and has a field for sending a new re-quest.
 
 **Discussions**  
-Renders the discussions page. Shows discussions the user is part of. Of-fers an option to create a new discussion.  
-Create discussion: Create a discussion and choose the participants.  
+Renders the discussions page. Offers an option to create a new discussion or join everyones channel.  
+Create discussion: Create a private channel.  
 Discussion: Display the messages and their information in a specific discussion.  
 
 **Events**  
@@ -185,7 +184,7 @@ The testing timetable will become clearer once we get the project rolling and st
 ## Project timetable and division of work
 
 We will start first together on the features and afterwards we will divide them accord-ingly. We all promised to be working on this project at least twice per week for a min-imum of 2h per session. The first hours of work will be done together in meetings.
-Matias will be the one creating the GitLab issues and assign them and will cre-ate it before our meeting on the 6th of November.     
+Matias will be the one creating the GitLab issues and assign them and will create it before our meeting on the 6th of November.     
 
 >>>
 _`The Django project in this repo (bwa2018djangoproject), was created for the groups using Heroku Django Starter Template. The information about it left here for educational purposes. The groups are free to remove this text and all the text below it from this file.`_

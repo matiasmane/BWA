@@ -20,7 +20,6 @@ $('#chat-form').on('submit', function(event) {
       $('#msg-list').append(
         '<li class="text-right list-group-item">' + json.msg + '</li>'
       );
-      // ylläolevaa riviä pitää muokata niin että viestin lähettäjä saadaan näkyviin ensimmäisen get kutsun jälkeenkin
       var chatlist = document.getElementById('msg-list-div');
       chatlist.scrollTop = chatlist.scrollHeight;
     }

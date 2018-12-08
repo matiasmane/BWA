@@ -33,7 +33,7 @@
                     {% if user == request.user %}
                         <a href="{% url 'remove_friendship' id=friend.id %}">
                         <button type="button" class="btn btn-warning">Remove friend</button>
-                        </a>
+                        
                     {% endif %}
                 {% endfor %}
              {% if user == request.user %}
@@ -44,7 +44,7 @@
                         <a href="{% url 'cancel_friend_request' id=s_request.to_user.id %}">
                         <button type="button" class="btn btn-warning">Cancel friend request</button>
                         </a>
-                    </a>
+                    
                 {% endfor %}
             {% endif %}    
     </div>
