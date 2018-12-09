@@ -34,8 +34,7 @@ The must have features will be implemented in the following order:
 3. 	Profile page
 4.	Settings
 5.	Friendships
-6.	Events
-7.	Discussion
+6.	Discussion
 
 ## Planned +2 features
 We are planning to implement the following +2 features in our course project:
@@ -62,7 +61,7 @@ The needed models and their attributes will be:
 **User**  
 Description: The model for a user in the website. Includes personal information of the user.  
 Attributes: real name, username, email, phone number, address    
-Connections: friendship, event, discussion, group, message, status update    
+Connections: friendship, discussion, group, message, status update    
 
 **Discussion**  
 Description: The model for a discussion between two or more users.  
@@ -88,13 +87,13 @@ Connections: user
 In the website we will use the following URLs:
 
 Login page: domain  
-Profile Page: /user_name  
-Settings Page: /user_name/settings  
-List of friends: /user_name/friends  
-Friend requests: /user_name/requests  
-Option, chose private chat or not: /channel/  
+Profile Page: /user_id  
+Settings Page: /user_id/settings  
+List of friends: /user_id/friends  
+Friend requests: /user_id/requests  
+Option to choose between private chat or not: /channel/  
 Private_channel: /chat/user.id
-For everyone chat: /chat/ 
+Public channel: /chat/ 
   
 
 ### Needed Django views and templates
