@@ -11,13 +11,10 @@ The headers that must be present in this document are shown here. They were copi
 For instructions on what to add under these headers, see the course project assignment document, [Appendix 2: Initial project plan document](https://docs.google.com/document/d/1iJ4z8dQzUWht0ABX18RXa5Rp8hY76vcMJvBbxODs3PE/edit?usp=sharing#heading=h.m6xhgmo8x8lz)
 
 ## Course project group information
-The name, student number, and TUT email for each group member:
  
-Matias Mane, matias.mane@student.tut.fi, 267034 
-
-Henrik Sillanp��, henrik.sillanpaa@student.tut.fi, 224507
-
-Lauri Varjo, lauri.varjo@student.tut.fi, 252869
+Matias Mane
+Henrik Sillanpaa
+Lauri Varjo
 
 Group name: Velhot
 
